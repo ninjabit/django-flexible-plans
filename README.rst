@@ -8,8 +8,8 @@ django-flexible-plans
 .. image:: https://travis-ci.org/ninjabit/django-flexible-plans.svg?branch=master
     :target: https://travis-ci.org/ninjabit/django-flexible-plans
 
-.. image:: https://codecov.io/gh/tobia.ghiraldini/django-flexible-plans/branch/master/graph/badge.svg
-    :target: https://codecov.io/gh/tobia.ghiraldini/django-flexible-plans
+.. image:: https://codecov.io/gh/ninjabit/django-flexible-plans/branch/master/graph/badge.svg
+    :target: https://codecov.io/gh/ninjabit/django-flexible-plans
 
 Independent and reusable apps to build app a Subscription Plan System
 
