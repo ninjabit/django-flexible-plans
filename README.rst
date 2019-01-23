@@ -5,8 +5,8 @@ django-flexible-plans
 .. image:: https://badge.fury.io/py/django-flexible-plans.svg
     :target: https://badge.fury.io/py/django-flexible-plans
 
-.. image:: https://travis-ci.org/tobia.ghiraldini/django-flexible-plans.svg?branch=master
-    :target: https://travis-ci.org/tobia.ghiraldini/django-flexible-plans
+.. image:: https://travis-ci.com/tobia.ghiraldini/django-flexible-plans.svg?branch=master
+    :target: https://travis-ci.com/tobia.ghiraldini/django-flexible-plans
 
 .. image:: https://codecov.io/gh/tobia.ghiraldini/django-flexible-plans/branch/master/graph/badge.svg
     :target: https://codecov.io/gh/tobia.ghiraldini/django-flexible-plans
