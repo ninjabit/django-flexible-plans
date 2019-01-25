@@ -7,11 +7,8 @@ from django.views.generic import (
     ListView
 )
 
-from .models import (
-	Plan,
-	PlanItem,
-	UserPlan,
-)
+from .models.features import Feature
+from .models.plans import Plan
 
 
 class PlanCreateView(CreateView):
@@ -39,52 +36,27 @@ class PlanListView(ListView):
     model = Plan
 
 
-class PlanItemCreateView(CreateView):
+class FeatureCreateView(CreateView):
 
-    model = PlanItem
-
-
-class PlanItemDeleteView(DeleteView):
-
-    model = PlanItem
+    model = Feature
 
 
-class PlanItemDetailView(DetailView):
+class FeatureDeleteView(DeleteView):
 
-    model = PlanItem
-
-
-class PlanItemUpdateView(UpdateView):
-
-    model = PlanItem
+    model = Feature
 
 
-class PlanItemListView(ListView):
+class FeatureDetailView(DetailView):
 
-    model = PlanItem
-
-
-class UserPlanCreateView(CreateView):
-
-    model = UserPlan
+    model = Feature
 
 
-class UserPlanDeleteView(DeleteView):
+class FeatureUpdateView(UpdateView):
 
-    model = UserPlan
-
-
-class UserPlanDetailView(DetailView):
-
-    model = UserPlan
+    model = Feature
 
 
-class UserPlanUpdateView(UpdateView):
+class FeatureListView(ListView):
 
-    model = UserPlan
-
-
-class UserPlanListView(ListView):
-
-    model = UserPlan
+    model = Feature
 
