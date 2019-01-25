@@ -12,11 +12,37 @@ class BaseFeature(models.Model):
     codename = models.CharField(
         _('codename'), max_length=50, unique=True, db_index=True)
 
+    def get_validator(self):
+        """
+        Get the proper validator from the ValidatorPolicy registry
+        :return: Validator object that matches with the feature codename or None
+        """
+        validators = []
+        for validator in validators:
+            if validator.name == self.codename:
+                return validator
+        return None
+
+    def log_usage(self):
+        """
+        Logs the feature usage, against the correct validator
+        """
+        # TODO: write a base implementation, or raise an error to force a subsclass specific implementation
+        pass
+        # raise NotImplementedError()
+
     class Meta:
         abstract = True
 
 
 class Feature(BaseFeature):
+    """
+    Feature default implementation
+    Feature is a swappable model to allow client to use their own Feature model.
+    It is recommended to subclass BaseFeature to inherit all the behaviours and base fields.
+    Being Feature a base class of other specific Feature Classes, it support an InheritanceManager
+    to return all kinds of objects on Feature querysets
+    """
     objects = InheritanceManager()
 
     class Meta:
@@ -25,7 +51,12 @@ class Feature(BaseFeature):
 
 class MeteredFeature(Feature):
     units = models.PositiveIntegerField(default=0)
+    usage = models.PositiveIntegerField(default=0)
 
 
 class CumulativeFeature(Feature):
-    pass
+    usage = models.PositiveIntegerField(default=0)
+
+
+class PermissionFeature(Feature):
+    permission = models.ForeignKey('auth.Permission', on_delete=models.CASCADE, related_name='+')
