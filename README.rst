@@ -11,7 +11,11 @@ django-flexible-plans
 .. image:: https://codecov.io/gh/ninjabit/django-flexible-plans/branch/master/graph/badge.svg
     :target: https://codecov.io/gh/ninjabit/django-flexible-plans
 
-Independent and reusable apps to build app a Subscription Plan System
+Independent and reusable Plan app used to build the Django Subscription Plan System
+
+`Django-Subscription-Plan-System`_
+
+.. _Django-Subscription-Plan-System: git@github.com:ninjabit/django-subscription-plan-system.git
 
 Documentation
 -------------
@@ -53,6 +57,14 @@ Features
 
 * TODO
 
+Roadmap
+-------
+
+* Configurable, swappable Plan Model, to customize the Plan Class behaviour
+* Dynamic imports from other app in the ecosystem to handle all the other aspects of having a plan subscription system
+* Multiple plan types, with support of any combination of quotas, features, permissions.
+* Multiple plan/subscription provider support
+
 Running Tests
 -------------
 
@@ -71,6 +83,12 @@ Tools used in rendering this package:
 
 *  Cookiecutter_
 *  `cookiecutter-djangopackage`_
+*  `django-model-utils`_
+*  `django-swappable-models`_
+*  `django-countries`_
 
 .. _Cookiecutter: https://github.com/audreyr/cookiecutter
-.. _`cookiecutter-djangopackage`: https://github.com/pydanny/cookiecutter-djangopackage
+.. _cookiecutter-djangopackage: https://github.com/pydanny/cookiecutter-djangopackage
+.. _django-model-utils: https://github.com/jazzband/django-model-utils
+.. _django-swappable-models: https://github.com/wq/django-swappable-models
+.. _django-countries: https://github.com/SmileyChris/django-countries

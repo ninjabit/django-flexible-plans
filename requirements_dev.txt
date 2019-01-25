@@ -1,5 +1,6 @@
 bumpversion==0.5.3
 wheel==0.30.0
 django-model-utils>=2.0
+swapper>=1.1.0
 Sphinx
 Pygments
