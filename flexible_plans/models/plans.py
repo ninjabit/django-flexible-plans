@@ -44,4 +44,4 @@ class Plan(BasePlan):
         _('available'), default=False, db_index=True,
         help_text=_('Is still available for purchase')
     )
-    features = models.ManyToManyField(swapper.get_model_name('flexible_plan', 'Feature'))
+    features = models.ManyToManyField(swapper.get_model_name('flexible_plans', 'Feature'))

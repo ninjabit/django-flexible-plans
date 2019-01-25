@@ -46,7 +46,7 @@ class Feature(BaseFeature):
     objects = InheritanceManager()
 
     class Meta:
-        swappable = swapper.swappable_setting('flexible_plan', 'Feature')
+        swappable = swapper.swappable_setting('flexible_plans', 'Feature')
 
 
 class MeteredFeature(Feature):
