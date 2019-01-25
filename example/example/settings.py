@@ -117,3 +117,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+
+FLEXIBLE_PLAN_FEATURE_MODEL = 'flexible_plans.Feature'
+FLEXIBLE_PLAN_PLAN_MODEL = 'flexible_plans.Plan'
