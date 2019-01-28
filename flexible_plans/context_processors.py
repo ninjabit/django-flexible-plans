@@ -20,8 +20,8 @@ def subscription_status(request):
             return {
                 'ACCOUNT_EXPIRED': request.user.subscription.is_expired(),
                 'ACCOUNT_NOT_ACTIVE': (
-                not request.user.subscription.is_active() and not request.user.subscription.is_expired()),
-                'EXPIRE_IN_DAYS': request.user.subscription.days_left(),
+                not request.user.customer.subscription.is_active() and not request.user.customer.subscription.is_expired()),
+                'EXPIRE_IN_DAYS': request.user.customer.subscription.days_left(),
                 'EXTEND_URL': reverse('current_plan'),
                 'ACTIVATE_URL': reverse('account_activation'),
             }

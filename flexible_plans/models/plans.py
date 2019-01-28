@@ -36,7 +36,7 @@ class BasePlan(TimeStampedModel, SoftDeletableModel):
         _('available'), default=False, db_index=True,
         help_text=_('Is still available for purchase')
     )
-    features = models.ManyToManyField(swapper.get_model_name('flexible_plans', 'Feature'))
+    # features = models.ManyToManyField(swapper.get_model_name('flexible_plans', 'Feature'))
 
     @staticmethod
     def get_provider_choices():
@@ -65,6 +65,9 @@ class Plan(BasePlan):
 
     """
     provider = models.CharField(max_length=100, choices=BasePlan.get_provider_choices())
+
+    def __str__(self):
+        return self.name
 
     class Meta:
         # Setting model as swappable

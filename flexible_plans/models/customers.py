@@ -1,12 +1,19 @@
+import swapper
 from django.db import models
 from django.conf import settings
-import swapper
+from model_utils.models import TimeStampedModel
 
 
-class Customer(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER, on_delete=models.CASCADE)
+class Customer(TimeStampedModel):
+    """
+    Customer Class related to user and referenced back from Subscription
+    """
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return "{0} ({1})".format(self.user, self.name)
 
     class Meta:
         # Setting model as swappable
         swappable = swapper.swappable_setting('flexible_plans', 'Customer')
-

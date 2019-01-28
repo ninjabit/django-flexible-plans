@@ -52,14 +52,10 @@ class Feature(BaseFeature):
         swappable = swapper.swappable_setting('flexible_plans', 'Feature')
 
 
-class MeteredFeature(Feature):
-    units = models.PositiveIntegerField(default=0)
-    usage = models.PositiveIntegerField(default=0)
-
-
-class CumulativeFeature(Feature):
-    usage = models.PositiveIntegerField(default=0)
-
-
-class PermissionFeature(Feature):
-    permission = models.ForeignKey('auth.Permission', on_delete=models.CASCADE, related_name='+')
+# class MeteredFeature(Feature):
+#     units = models.PositiveIntegerField(default=0)
+#     usage = models.PositiveIntegerField(default=0)
+#
+#
+# class CumulativeFeature(Feature):
+#     usage = models.PositiveIntegerField(default=0)

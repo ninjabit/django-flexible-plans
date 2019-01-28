@@ -12,3 +12,4 @@ class FlexiblePlansConfig(AppConfig):
     * create and add another config to INSTALLED_APPS settings to load this app with custom AppConfig
     """
     name = 'flexible_plans'
+    verbose_name = 'Plans'
