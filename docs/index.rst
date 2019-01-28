@@ -15,7 +15,6 @@ Contents:
    installation
    usage
    code
-   documentation/modules
    contributing
    authors
    history

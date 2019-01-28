@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from django.db import models
 from model_utils.managers import InheritanceManager
 from django.utils.translation import gettext_lazy as _
@@ -46,6 +48,7 @@ class Feature(BaseFeature):
     objects = InheritanceManager()
 
     class Meta:
+        # Setting model as swappable
         swappable = swapper.swappable_setting('flexible_plans', 'Feature')
 
 
