@@ -13,6 +13,7 @@ class BaseFeature(models.Model):
     name = models.CharField(_('name'), max_length=255)
     codename = models.CharField(
         _('codename'), max_length=50, unique=True, db_index=True)
+    description = models.TextField(_('description'), blank=True)
 
     def get_validator(self):
         """
@@ -52,10 +53,10 @@ class Feature(BaseFeature):
         swappable = swapper.swappable_setting('flexible_plans', 'Feature')
 
 
-# class MeteredFeature(Feature):
-#     units = models.PositiveIntegerField(default=0)
-#     usage = models.PositiveIntegerField(default=0)
-#
-#
-# class CumulativeFeature(Feature):
-#     usage = models.PositiveIntegerField(default=0)
+class MeteredFeature(Feature):
+    units = models.PositiveIntegerField(default=0)
+    usage = models.PositiveIntegerField(default=0)
+
+
+class CumulativeFeature(Feature):
+    usage = models.PositiveIntegerField(default=0)

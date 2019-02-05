@@ -1,8 +1,14 @@
 import swapper
+from datetime import date, timedelta, datetime
+from django.conf import settings
 from django.db import models
+from django.utils.timezone import now
+
 from model_utils.models import TimeStampedModel
 from datetime import date
 from django.utils.translation import gettext_lazy as _
+
+from flexible_plans.signals import subscription_activate, subscription_deactivate
 from flexible_plans.utils.validators import plan_validation
 
 
@@ -10,11 +16,11 @@ class BaseSubscription(TimeStampedModel):
     """
     Base class for user subscriptions to plans
     """
+    customer = models.OneToOneField(swapper.get_model_name('flexible_plans', 'Customer'), on_delete=models.CASCADE)
+    plan = models.ForeignKey(swapper.get_model_name('flexible_plans', 'Plan'), on_delete=models.CASCADE, related_name='+')
     expire = models.DateField(
         _('expire'), default=None, blank=True, null=True, db_index=True)
     active = models.BooleanField(_('active'), default=True, db_index=True)
-    plan = models.ForeignKey(swapper.get_model_name('flexible_plans', 'Plan'), on_delete=models.CASCADE, related_name='+')
-    customer = models.ForeignKey(swapper.get_model_name('flexible_plans', 'Customer'), on_delete=models.CASCADE, related_name='+')
 
     def clean_activation(self):
         errors = plan_validation(self.customer)
@@ -41,10 +47,24 @@ class BaseSubscription(TimeStampedModel):
             return (self.expire - date.today()).days
 
     def activate(self):
-        pass
+        if not self.active:
+            self.active = True
+            self.save()
+            subscription_activate.send(sender=self, customer=self.customer)
 
     def deactivate(self):
-        pass
+        if self.active:
+            self.active = False
+            self.save()
+            subscription_deactivate.send(sender=self, customer=self.customer)
+
+    def initialize(self):
+        if not self.is_active():
+            if self.expire is None:
+                self.expire = now() + timedelta(
+                    days=getattr(settings, 'PLANS_DEFAULT_GRACE_PERIOD', 30)
+                )
+            self.activate()
 
     class Meta:
         abstract = True

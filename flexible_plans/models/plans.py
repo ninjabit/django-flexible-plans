@@ -36,10 +36,18 @@ class BasePlan(TimeStampedModel, SoftDeletableModel):
         _('available'), default=False, db_index=True,
         help_text=_('Is still available for purchase')
     )
-    # features = models.ManyToManyField(swapper.get_model_name('flexible_plans', 'Feature'))
+    visible = models.BooleanField(
+        _('visible'), default=True, db_index=True,
+        help_text=_('Is visible in current offer')
+    )
+    features = models.ManyToManyField(swapper.get_model_name('flexible_plans', 'Feature'), through='PlanFeatures')
 
     @staticmethod
     def get_provider_choices():
+        """
+        Scans settings to look for configured payment providers and serve them as choice list
+        :return: [PaymentProvider]
+        """
         from django.conf import settings
         choices = []
         if getattr(settings, 'PAYMENT_PROVIDERS', None):
@@ -48,11 +56,26 @@ class BasePlan(TimeStampedModel, SoftDeletableModel):
 
     @staticmethod
     def get_default_plan(cls):
+        """
+        Shortcut to retrieve the default plan to be assigned if no plan is selected
+        :param cls:
+        :return: default Plan instance
+        """
         try:
             default_plan = cls.objects.get(default=True)
         except cls.DoesNotExists():
             default_plan = None
         return default_plan
+
+    def get_features_dict(self):
+        """
+        Retrieve a Dict of all the plan's feature to pass through validators
+        :return: {feat.codename: feat.value}
+        """
+        feat_dict = {}
+        for plan_feature in PlanFeature.objects.filter(plan=self).select_related('feature'):
+            feat_dict[plan_feature.feature.codename] = plan_feature.value
+        return feat_dict
 
     class Meta:
         abstract = True
@@ -74,3 +97,6 @@ class Plan(BasePlan):
         swappable = swapper.swappable_setting('flexible_plans', 'Plan')
 
 
+class PlanFeature(models.Model):
+    plan = models.ForeignKey('Plan')
+    feature = models.ForeignKey(swapper.get_model_name('flexible_plans', 'Feature'))
