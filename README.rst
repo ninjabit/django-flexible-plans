@@ -11,7 +11,7 @@ django-flexible-plans
 .. image:: https://codecov.io/gh/ninjabit/django-flexible-plans/branch/master/graph/badge.svg
     :target: https://codecov.io/gh/ninjabit/django-flexible-plans
 
-Independent and reusable Plan app used to build the Django Subscription Plan System
+Independent and reusable Plan, Subscription app used to build the Django Subscription Plan System
 
 `Django-Subscription-Plan-System`_
 
@@ -52,10 +52,15 @@ Add django-flexible-plans's URL patterns:
         ...
     ]
 
+Create Features PlanFeatures, Plans through the admin panel to let users activate their subscriptions.
+
+
 Features
 --------
 
-* TODO
+Plans have Features that describe them and what their subscribers can do or their quotas
+Users can subscribe to Plans and their Subscription can be activated, deactivated, renewed, prorated, upgraded or downgraded.
+
 
 Roadmap
 -------

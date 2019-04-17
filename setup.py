@@ -47,7 +47,7 @@ history = open('HISTORY.rst').read().replace('.. :changelog:', '')
 setup(
     name='django-flexible-plans',
     version=version,
-    description="""Independent and reusable apps to build app a Subscription Plan System""",
+    description="""Independent and reusable plans app to build a Subscription Plan System""",
     long_description=readme + '\n\n' + history,
     author='Tobia Ghiraldini',
     author_email='tobia.ghiraldini@ninjabit.com',

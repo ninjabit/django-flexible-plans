@@ -6,6 +6,7 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
+Django = ">=2.1.6"
 django-model-utils = ">=2.0"
 
 [requires]
