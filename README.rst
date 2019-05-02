@@ -17,6 +17,10 @@ Independent and reusable Plan, Subscription app used to build the Django Subscri
 
 .. _Django-Subscription-Plan-System: git@github.com:ninjabit/django-subscription-plan-system.git
 
+Status
+------
+Under heavy development. Not ready for use yet. Please feel free to join and contribute.
+
 Documentation
 -------------
 
