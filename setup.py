@@ -59,6 +59,7 @@ setup(
     install_requires=[
         "django-model-utils>=2.0",
         "swapper>=1.1.0",
+        "django-money>=0.14",
     ],
     license="BSD",
     zip_safe=False,
