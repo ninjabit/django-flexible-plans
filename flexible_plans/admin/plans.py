@@ -1,5 +1,4 @@
 from django.contrib import admin
-from flexible_plans.models import Plan
 import swapper
 
 
