@@ -13,17 +13,17 @@ def subscription_status(request):
      * ``ACTIVATE_URL = string``, URL to account activation needed if  account is not active
 
     :param request: HttpRequest object
-    :return: the current user susbscription status object
+    :return: the current user subscription status object
     """
     if request.user.is_authenticated:
         try:
             return {
-                'ACCOUNT_EXPIRED': request.user.subscription.is_expired(),
-                'ACCOUNT_NOT_ACTIVE': (
+                'SUBSCRIPTION_EXPIRED': request.user.customer.subscription.is_expired(),
+                'SUBSCRIPTION_NOT_ACTIVE': (
                 not request.user.customer.subscription.is_active() and not request.user.customer.subscription.is_expired()),
                 'EXPIRE_IN_DAYS': request.user.customer.subscription.days_left(),
                 'EXTEND_URL': reverse('current_plan'),
-                'ACTIVATE_URL': reverse('account_activation'),
+                'ACTIVATE_URL': reverse('subscription_activation'),
             }
         except ObjectDoesNotExist:
             pass
