@@ -88,7 +88,7 @@ Does the code actually work?
 Credits
 -------
 
-Tools used in rendering this package:
+Tools used in creating this package:
 
 *  Cookiecutter_
 *  `cookiecutter-djangopackage`_

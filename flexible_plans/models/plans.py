@@ -1,9 +1,22 @@
 # -*- coding: utf-8 -*-
 
 from django.db import models
+from django.core.validators import MinValueValidator
 from django.utils.translation import gettext_lazy as _
+from djmoney.models.fields import MoneyField
+from model_utils import Choices
 from model_utils.models import TimeStampedModel, SoftDeletableModel
 import swapper
+
+
+class PlanFeature(models.Model):
+    plan = models.ForeignKey('Plan', on_delete=models.CASCADE)
+    feature = models.ForeignKey(
+        swapper.get_model_name('flexible_plans', 'Feature'),
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL
+    )
 
 
 class BasePlan(TimeStampedModel, SoftDeletableModel):
@@ -24,6 +37,20 @@ class BasePlan(TimeStampedModel, SoftDeletableModel):
     BasePlan is defined by its Features, which can be quotas, permissions on objects and features
 
     """
+
+    class INTERVALS(object):
+        DAY = 'day'
+        WEEK = 'week'
+        MONTH = 'month'
+        YEAR = 'year'
+
+        CHOICES = Choices(
+            (DAY, _('Day')),
+            (WEEK, _('Week')),
+            (MONTH, _('Month')),
+            (YEAR, _('Year'))
+        )
+
     name = models.CharField(_('name'), max_length=255, unique=True)
     description = models.TextField(_('description'), blank=True)
     default = models.NullBooleanField(
@@ -40,7 +67,18 @@ class BasePlan(TimeStampedModel, SoftDeletableModel):
         _('visible'), default=True, db_index=True,
         help_text=_('Is visible in current offer')
     )
-    features = models.ManyToManyField(swapper.get_model_name('flexible_plans', 'Feature'), through='PlanFeatures')
+    features = models.ManyToManyField(
+        swapper.get_model_name('flexible_plans', 'Feature'),
+        through='flexible_plans.PlanFeature'
+    )
+    interval = models.CharField(
+        choices=INTERVALS.CHOICES, max_length=12, default=INTERVALS.MONTH,
+        help_text='The frequency with which a subscription should be billed.'
+    )
+    interval_count = models.PositiveIntegerField(
+        help_text='The number of intervals between each subscription billing'
+    )
+    amount = MoneyField(max_digits=14, decimal_places=2, default_currency='USD')
 
     @staticmethod
     def get_provider_choices():
@@ -95,8 +133,3 @@ class Plan(BasePlan):
     class Meta:
         # Setting model as swappable
         swappable = swapper.swappable_setting('flexible_plans', 'Plan')
-
-
-class PlanFeature(models.Model):
-    plan = models.ForeignKey('Plan')
-    feature = models.ForeignKey(swapper.get_model_name('flexible_plans', 'Feature'))
