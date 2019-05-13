@@ -4,12 +4,22 @@ from django.conf import settings
 from model_utils.models import TimeStampedModel
 
 
-class Customer(TimeStampedModel):
+class BaseCustomer(TimeStampedModel):
     """
-    Customer Class related to user and referenced back from Subscription
+    BaseCustomer
+    Abstract base class definition for the necessary customers features
     """
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     customer_id = models.CharField(max_length=255, blank=True, null=True)
+
+    class Meta:
+        abstract = True
+
+
+class Customer(BaseCustomer):
+    """
+    Customer Class related to user and referenced back from Subscription
+    """
 
     @property
     def name(self):

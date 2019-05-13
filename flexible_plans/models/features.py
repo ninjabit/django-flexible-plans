@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 
 from django.db import models
-from model_utils.managers import InheritanceManager
 from django.utils.translation import gettext_lazy as _
 import swapper
+from polymorphic.models import PolymorphicModel
 
 
-class BaseFeature(models.Model):
+class BaseFeature(PolymorphicModel):
     """
     BaseFeature Abstract Model defines the feature behaviour
     """
@@ -46,7 +46,10 @@ class Feature(BaseFeature):
     Being Feature a base class of other specific Feature Classes, it support an InheritanceManager
     to return all kinds of objects on Feature querysets
     """
-    objects = InheritanceManager()
+    # objects = InheritanceManager()
+
+    def __str__(self):
+        return self.name
 
     class Meta:
         # Setting model as swappable
@@ -60,3 +63,7 @@ class MeteredFeature(Feature):
 
 class CumulativeFeature(Feature):
     usage = models.PositiveIntegerField(default=0)
+
+
+class PermissionFeature(Feature):
+    group = models.ManyToManyField('auth.Group')
