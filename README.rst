@@ -95,9 +95,13 @@ Tools used in creating this package:
 *  `django-model-utils`_
 *  `django-swappable-models`_
 *  `django-countries`_
+*  `django-fsm`_
+*  `django-money`_
 
 .. _Cookiecutter: https://github.com/audreyr/cookiecutter
 .. _cookiecutter-djangopackage: https://github.com/pydanny/cookiecutter-djangopackage
 .. _django-model-utils: https://github.com/jazzband/django-model-utils
 .. _django-swappable-models: https://github.com/wq/django-swappable-models
 .. _django-countries: https://github.com/SmileyChris/django-countries
+.. _django-fsm: https://github.com/viewflow/django-fsm
+.. _django-money: https://github.com/django-money/django-money
