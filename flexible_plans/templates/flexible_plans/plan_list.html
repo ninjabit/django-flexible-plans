@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+  <div class="list">
+    {% for item in object_list %}
+      {% include 'flexible_plans/includes/plan_list_item.html' %}
+    {% endfor %}
+  </div>
+{% endblock %}
