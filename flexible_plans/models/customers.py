@@ -1,6 +1,8 @@
 import swapper
+from django.apps import apps
 from django.db import models
 from django.conf import settings
+from django.dispatch import receiver
 from model_utils.models import TimeStampedModel
 
 
@@ -31,3 +33,4 @@ class Customer(BaseCustomer):
     class Meta:
         # Setting model as swappable
         swappable = swapper.swappable_setting('flexible_plans', 'Customer')
+

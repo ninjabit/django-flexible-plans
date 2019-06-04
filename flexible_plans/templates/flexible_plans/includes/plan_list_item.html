@@ -1,3 +1,15 @@
 <div class="item">
   <h1>{{ item.name }}</h1>
+  <p>{{ item.description }}</p>
+  <ul>
+  {% for feature in item.features.all %}
+    <li>{{ feature }}</li>
+  {% empty %}
+    <li>This plan has no features</li>
+  {% endfor %}
+  </ul>
+
+  <div class="actions">
+    <a href="{% url 'plans:subscription_create' pk=item.pk %}">Subscribe</a>
+  </div>
 </div>

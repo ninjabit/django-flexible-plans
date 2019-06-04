@@ -2,10 +2,19 @@
 Credits
 =======
 
-Development Lead
-----------------
+Package Development
+-------------------
 
 * Tobia Ghiraldini <tobia.ghiraldini@ninjabit.com>
+
+Third parties
+-------------
+
+* django-fsm
+* django-swapper
+* djangorestframework
+* django-money
+* django-polymorphic
 
 Contributors
 ------------

@@ -13,3 +13,6 @@ class FlexiblePlansConfig(AppConfig):
     """
     name = 'flexible_plans'
     verbose_name = 'Plans'
+
+    def ready(self):
+        from . import listeners

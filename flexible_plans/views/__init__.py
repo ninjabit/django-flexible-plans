@@ -1,4 +1,2 @@
-from .customers import *
-from .plans import *
-from .subscriptions import *
-from .features import *
+from .plans import PlanDetailView, PlanDeleteView, PlanCreateView, PlanListView, PlanUpdateView
+from .subscriptions import SubscriptionCreateView, SubscriptionUpdateView, SubscriptionDetailView

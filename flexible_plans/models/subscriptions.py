@@ -10,7 +10,7 @@ from model_utils.models import TimeStampedModel
 from datetime import date
 from django.utils.translation import gettext_lazy as _
 
-from flexible_plans.signals import subscription_activate, subscription_deactivate
+from flexible_plans.signals import subscription_activate, subscription_deactivate, subscription_end
 from flexible_plans.utils.validators import plan_validation
 
 
@@ -60,6 +60,16 @@ class BaseSubscription(TimeStampedModel):
     )
     data = JSONField(default=dict, blank=True, null=True)
 
+    @property
+    def needs_payment(self):
+        """
+        If plan is manual or is without any provider it can't be paid
+        :return:
+        """
+        is_manual = self.plan.provider == 'manual'
+        is_none = self.plan.provider is None
+        return not (is_manual or is_none)
+
     def clean_activation(self):
         errors = plan_validation(self.customer)
         if not errors['required_to_activate']:
@@ -80,26 +90,6 @@ class BaseSubscription(TimeStampedModel):
             return None
         else:
             return (self.expire - date.today()).days
-
-    # def activate(self):
-    #     if not self.active:
-    #         self.active = True
-    #         self.save()
-    #         subscription_activate.send(sender=self, customer=self.customer)
-    #
-    # def deactivate(self):
-    #     if self.active:
-    #         self.active = False
-    #         self.save()
-    #         subscription_deactivate.send(sender=self, customer=self.customer)
-
-    # def initialize(self):
-    #     if not self.is_active():
-    #         if self.expire is None:
-    #             self.expire = now() + timedelta(
-    #                 days=getattr(settings, 'PLANS_DEFAULT_GRACE_PERIOD', 30)
-    #             )
-    #         self.activate()
 
     ##########################################################################
     # STATE MACHINE TRANSITIONS
@@ -130,6 +120,10 @@ class BaseSubscription(TimeStampedModel):
     def cancel(self):
         subscription_deactivate.send(sender=self.__class__, subscription=self)
 
+    @transition(field=state, source=STATE.CANCELED, target=STATE.ENDED)
+    def end(self):
+        subscription_end.send(sender=self.__class__, subscription=self)
+
     ##########################################################################
     # PRIVATE METHODS
     ##########################################################################
@@ -148,3 +142,12 @@ class Subscription(BaseSubscription):
 
     def __str__(self):
         return "{0} {1}".format(self.customer, self.plan)
+
+
+class FeatureUsage(TimeStampedModel):
+    feature = models.ForeignKey(swapper.get_model_name('flexible_plans', 'Feature'), on_delete=models.DO_NOTHING)
+    subscription = models.ForeignKey(swapper.get_model_name('flexible_plans', 'Subscription'), on_delete=models.DO_NOTHING)
+    consumed_units = models.DecimalField(max_digits=10, decimal_places=2)
+
+    def __str__(self):
+        return "{} {} - {}".format(self.feature, self.subscription, self.consumed_units)

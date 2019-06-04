@@ -87,9 +87,11 @@ class BasePlan(TimeStampedModel, SoftDeletableModel):
         :return: [PaymentProvider]
         """
         from django.conf import settings
+        from django.apps import apps
         choices = []
-        if getattr(settings, 'PAYMENT_PROVIDERS', None):
-            choices = list(settings.PAYMENT_PROVIDERS)
+        if apps.is_installed('flexible_payments'):
+            from flexible_payments.processors.utils import get_providers_choices
+            choices = get_providers_choices()
         return choices
 
     @staticmethod
