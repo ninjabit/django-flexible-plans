@@ -28,8 +28,8 @@ class SubscriptionSerializer(serializers.ModelSerializer):
 
 
 class CustomerSerializer(serializers.ModelSerializer):
-    subscription = SubscriptionSerializer()
+    # subscription = SubscriptionSerializer()
 
     class Meta:
         model = Customer
-        fields = ('id', 'user', 'subscription')
+        fields = ('id', 'user')
